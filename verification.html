@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التحقق - ZOOL CODE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --success: #38a169;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .verification-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .verification-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .verification-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .verification-subtitle {
+            color: #718096;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .code-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .code-input {
+            width: 50px;
+            height: 60px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+        }
+
+        .verification-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .timer {
+            margin: 1rem 0;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .resend-link {
+            color: var(--accent);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <div class="verification-icon">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+
+        <h1 class="verification-title">التحقق من الحساب</h1>
+        <p class="verification-subtitle">
+            تم إرسال رمز التحقق المكون من 6 أرقام إلى بريدك الإلكتروني
+        </p>
+
+        <div class="code-inputs">
+            <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 1)">
+            <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 2)">
+            <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 3)">
+            <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 4)">
+            <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 5)">
+            <input type="text" class="code-input" maxlength="1" oninput="moveToNext(this, 6)">
+        </div>
+
+        <div class="verification-options">
+            <button class="option-btn" onclick="sendViaWhatsApp()">
+                <i class="fab fa-whatsapp" style="color: #25D366;"></i>
+                واتساب
+            </button>
+            <button class="option-btn" onclick="sendViaSMS()">
+                <i class="fas fa-sms" style="color: var(--accent);"></i>
+                رسالة نصية
+            </button>
+        </div>
+
+        <button class="btn btn-primary" onclick="verifyCode()">تحقق من الرمز</button>
+
+        <div class="timer" id="timer">02:00</div>
+        
+        <p>
+            لم تستلم الرمز؟ 
+            <a class="resend-link" onclick="resendCode()" id="resendLink">إعادة إرسال</a>
+        </p>
+    </div>
+
+    <script>
+        let timeLeft = 120;
+        let canResend = false;
+        let timerInterval;
+
+        function startTimer() {
+            timeLeft = 120;
+            canResend = false;
+            document.getElementById('resendLink').style.opacity = '0.5';
+            document.getElementById('resendLink').style.pointerEvents = 'none';
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                canResend = true;
+                document.getElementById('resendLink').style.opacity = '1';
+                document.getElementById('resendLink').style.pointerEvents = 'auto';
+                document.getElementById('timer').textContent = 'يمكنك إعادة الإرسال الآن';
+            } else {
+                timeLeft--;
+            }
+        }
+
+        function moveToNext(input, nextIndex) {
+            if (input.value.length === 1) {
+                const inputs = document.querySelectorAll('.code-input');
+                if (nextIndex < inputs.length) {
+                    inputs[nextIndex].focus();
+                }
+            }
+        }
+
+        function verifyCode() {
+            const inputs = document.querySelectorAll('.code-input');
+            let code = '';
+            inputs.forEach(input => {
+                code += input.value;
+            });
+            
+            if (code.length === 6) {
+                // محاكاة التحقق الناجح
+                const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                userData.verified = true;
+                userData.verifiedAt = new Date().toISOString();
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+                
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('الرجاء إدخال الرمز المكون من 6 أرقام');
+            }
+        }
+
+        function sendViaWhatsApp() {
+            alert('تم إرسال الرمز عبر واتساب');
+        }
+
+        function sendViaSMS() {
+            alert('تم إرسال الرمز via SMS');
+        }
+
+        function resendCode() {
+            if (canResend) {
+                alert('تم إعادة إرسال الرمز');
+                startTimer();
+            } else {
+                alert('الرجاء الانتظار حتى انتهاء الوقت');
+            }
+        }
+
+        // بدء المؤقت عند التحميل
+        document.addEventListener('DOMContentLoaded', startTimer);
+    </script>
+</body>
+</html>

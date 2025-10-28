@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - ZOOL CODE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --info: #3182ce;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--secondary);
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .admin-logo span {
+            color: var(--accent);
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 80px);
+        }
+
+        .admin-sidebar {
+            background: var(--card-bg);
+            border-right: 1px solid #e2e8f0;
+            padding: 2rem 0;
+        }
+
+        .admin-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-right: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: var(--bg);
+            border-right-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .admin-content {
+            padding: 2rem;
+            background: var(--bg);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            border-left: 4px solid var(--accent);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.users { border-left-color: var(--info); }
+        .stat-card.posts { border-left-color: var(--success); }
+        .stat-card.interactions { border-left-color: var(--warning); }
+        .stat-card.growth { border-left-color: #9f7aea; }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.users { background: var(--info); }
+        .stat-icon.posts { background: var(--success); }
+        .stat-icon.interactions { background: var(--warning); }
+        .stat-icon.growth { background: #9f7aea; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .change-positive { background: #c6f6d5; color: #276749; }
+        .change-negative { background: #fed7d7; color: #c53030; }
+
+        .data-table {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+        }
+
+        .table-content {
+            padding: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: var(--bg);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--bg);
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active { background: #c6f6d5; color: #276749; }
+        .status-inactive { background: #fed7d7; color: #c53030; }
+        .status-pending { background: #feebc8; color: #d69e2e; }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c53030;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2f855a;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d69e2e;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-panel {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .control-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .control-item:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #cbd5e0;
+            transition: var(--transition);
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: var(--success);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- رأس لوحة التحكم -->
+    <header class="admin-header">
+        <nav class="admin-nav">
+            <div class="admin-logo">
+                <i class="fas fa-cog"></i>
+                ZOOL <span>CODE</span> - لوحة التحكم
+            </div>
+            <div class="admin-user">
+                <div class="user-avatar">
+                    <img src="00.jpg" alt="المطور">
+                </div>
+                <span>توفيق المحجوب</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="admin-container">
+        <!-- الشريط الجانبي -->
+        <div class="admin-sidebar">
+            <ul class="admin-menu">
+                <li class="menu-item active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    لوحة التحكم
+                </li>
+                <li class="menu-item" onclick="showSection('users')">
+                    <i class="fas fa-users"></i>
+                    إدارة المستخدمين
+                </li>
+                <li class="menu-item" onclick="showSection('posts')">
+                    <i class="fas fa-file-alt"></i>
+                    إدارة المنشورات
+                </li>
+                <li class="menu-item" onclick="showSection('analytics')">
+                    <i class="fas fa-chart-bar"></i>
+                    الإحصائيات
+                </li>
+                <li class="menu-item" onclick="showSection('settings')">
+                    <i class="fas fa-cogs"></i>
+                    إعدادات النظام
+                </li>
+                <li class="menu-item" onclick="showSection('updates')">
+                    <i class="fas fa-sync-alt"></i>
+                    التحديثات
+                </li>
+                <li class="menu-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </li>
+            </ul>
+        </div>
+
+        <!-- المحتوى -->
+        <div class="admin-content">
+            <!-- لوحة التحكم -->
+            <div id="dashboardSection" class="content-section active">
+                <div class="section-header">
+                    <h2 class="section-title">نظرة عامة</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            تصدير التقرير
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card users">
+                        <div class="stat-icon users">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number">1,248</div>
+                        <div class="stat-label">إجمالي المستخدمين</div>
+                        <div class="stat-change change-positive">+5.2%</div>
+                    </div>
+                    <div class="stat-card posts">
+                        <div class="stat-icon posts">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-number">3,567</div>
+                        <div class="stat-label">إجمالي المنشورات</div>
+                        <div class="stat-change change-positive">+12.7%</div>
+                    </div>
+                    <div class="stat-card interactions">
+                        <div class="stat-icon interactions">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-number">12,845</div>
+                        <div class="stat-label">التفاعلات</div>
+                        <div class="stat-change change-positive">+8.3%</div>
+                    </div>
+                    <div class="stat-card growth">
+                        <div class="stat-icon growth">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-number">+15.2%</div>
+                        <div class="stat-label">معدل النمو</div>
+                        <div class="stat-change change-positive">+2.1%</div>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <div class="table-header">آخر المستخدمين المسجلين</div>
+                    <div class="table-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>المستخدم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>تاريخ التسجيل</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>أحمد محمد</td>
+                                    <td>ahmed@example.com</td>
+                                    <td>2024-01-15</td>
+                                    <td><span class="status status-active">نشط</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-primary btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-sm">
+                                                <i class="fas fa-ban"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>فاطمة عبدالله</td>
+                                    <td>fatima@example.com</td>
+                                    <td>2024-01-14</td>
+                                    <td><span class="status status-inactive">غير نشط</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-primary btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- إعدادات النظام -->
+            <div id="settingsSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">إعدادات النظام</h2>
+                </div>
+
+                <div class="control-panel">
+                    <div class="control-item">
+                        <div>
+                            <h4>وضع الصيانة</h4>
+                            <p>إيقاف الموقع للصيانة والتحديثات</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="maintenanceMode">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-item">
+                        <div>
+                            <h4>السماح بالتسجيل</h4>
+                            <p>السماح للمستخدمين الجدد بالتسجيل</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="allowRegistration" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-item">
+                        <div>
+                            <h4>الإشعارات البريدية</h4>
+                            <p>إرسال إشعارات للمستخدمين عبر البريد</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="emailNotifications" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="control-item">
+                        <div>
+                            <h4>التحقق من المستخدمين</h4>
+                            <p>طلب التحقق من البريد الإلكتروني</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="userVerification" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-success" onclick="saveSettings()">
+                        <i class="fas fa-save"></i>
+                        حفظ الإعدادات
+                    </button>
+                    <button class="btn btn-warning" onclick="resetSettings()">
+                        <i class="fas fa-undo"></i>
+                        إعادة تعيين
+                    </button>
+                </div>
+            </div>
+
+            <!-- التحديثات -->
+            <div id="updatesSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">إدارة التحديثات</h2>
+                </div>
+
+                <div class="control-panel">
+                    <div class="control-item">
+                        <div>
+                            <h4>التحديث القسري</h4>
+                            <p>إجبار جميع المستخدمين على التحديث</p>
+                        </div>
+                        <button class="btn btn-warning" onclick="forceUpdate()">
+                            <i class="fas fa-sync-alt"></i>
+                            تفعيل التحديث القسري
+                        </button>
+                    </div>
+
+                    <div class="control-item">
+                        <div>
+                            <h4>رسالة التحديث</h4>
+                            <p>الرسالة التي تظهر للمستخدمين</p>
+                        </div>
+                        <input type="text" class="form-control" style="width: 300px;" 
+                               value="تحديث جديد متاح - يرجى التحديث للحصول على الميزات الجديدة">
+                    </div>
+
+                    <div class="control-item">
+                        <div>
+                            <h4>رابط التحديث</h4>
+                            <p>الرابط الذي سيتم توجيه المستخدمين إليه</p>
+                        </div>
+                        <input type="url" class="form-control" style="width: 300px;" 
+                               value="https://zoolcode.com/update">
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <div class="table-header">سجل التحديثات</div>
+                    <div class="table-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الإصدار</th>
+                                    <th>التاريخ</th>
+                                    <th>الحالة</th>
+                                    <th>المستخدمين المتأثرين</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>v1.2.0</td>
+                                    <td>2024-01-15</td>
+                                    <td><span class="status status-active">مفعل</span></td>
+                                    <td>1,248</td>
+                                </tr>
+                                <tr>
+                                    <td>v1.1.5</td>
+                                    <td>2024-01-10</td>
+                                    <td><span class="status status-inactive">منتهي</span></td>
+                                    <td>1,150</td>
+                                </tr>
+                                <tr>
+                                    <td>v1.1.0</td>
+                                    <td>2024-01-01</td>
+                                    <td><span class="status status-inactive">منتهي</span></td>
+                                    <td>980</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تبديل الأقسام
+        function showSection(sectionName) {
+            // إخفاء جميع الأقسام
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // إزالة النشاط من جميع عناصر القائمة
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // إظهار القسم المطلوب
+            document.getElementById(sectionName + 'Section').classList.add('active');
+            
+            // تفعيل عنصر القائمة
+            event.target.classList.add('active');
+        }
+
+        // حفظ الإعدادات
+        function saveSettings() {
+            const settings = {
+                maintenanceMode: document.getElementById('maintenanceMode').checked,
+                allowRegistration: document.getElementById('allowRegistration').checked,
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                userVerification: document.getElementById('userVerification').checked
+            };
+            
+            localStorage.setItem('adminSettings', JSON.stringify(settings));
+            alert('تم حفظ الإعدادات بنجاح!');
+        }
+
+        // إعادة تعيين الإعدادات
+        function resetSettings() {
+            if (confirm('هل تريد إعادة تعيين جميع الإعدادات إلى القيم الافتراضية؟')) {
+                document.getElementById('maintenanceMode').checked = false;
+                document.getElementById('allowRegistration').checked = true;
+                document.getElementById('emailNotifications').checked = true;
+                document.getElementById('userVerification').checked = true;
+                alert('تم إعادة تعيين الإعدادات');
+            }
+        }
+
+        // التحديث القسري
+        function forceUpdate() {
+            if (confirm('هل تريد تفعيل التحديث القسري لجميع المستخدمين؟')) {
+                // هنا يمكنك إضافة كود التحديث القسري
+                alert('تم تفعيل التحديث القسري. سيتم توجيه جميع المستخدمين للإصدار الجديد.');
+            }
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            if (confirm('هل تريد تسجيل الخروج من لوحة التحكم؟')) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // تحميل الإعدادات المحفوظة
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedSettings = JSON.parse(localStorage.getItem('adminSettings') || '{}');
+            
+            if (savedSettings.maintenanceMode !== undefined) {
+                document.getElementById('maintenanceMode').checked = savedSettings.maintenanceMode;
+            }
+            if (savedSettings.allowRegistration !== undefined) {
+                document.getElementById('allowRegistration').checked = savedSettings.allowRegistration;
+            }
+            if (savedSettings.emailNotifications !== undefined) {
+                document.getElementById('emailNotifications').checked = savedSettings.emailNotifications;
+            }
+            if (savedSettings.userVerification !== undefined) {
+                document.getElementById('userVerification').checked = savedSettings.userVerification;
+            }
+        });
+    </script>
+</body>
+</html>

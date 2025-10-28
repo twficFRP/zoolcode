@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - ZOOL CODE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --success: #38a169;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .login-header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .login-tabs {
+            display: flex;
+            background: var(--secondary);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+        }
+
+        .tab-content {
+            padding: 2rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #718096;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 45%;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 45%;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #718096;
+        }
+
+        .login-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">ZOOL <span>CODE</span></div>
+            <p>انضم إلى مجتمع المبرمجين العرب</p>
+        </div>
+
+        <div class="login-tabs">
+            <button class="tab-btn active" onclick="switchTab('login')">تسجيل الدخول</button>
+            <button class="tab-btn" onclick="switchTab('signup')">إنشاء حساب</button>
+        </div>
+
+        <!-- تسجيل الدخول -->
+        <div id="loginTab" class="tab-content active">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">كلمة المرور</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <label style="margin: 0;">
+                        <input type="checkbox"> تذكرني
+                    </label>
+                    <a href="#" style="color: var(--accent); text-decoration: none;">نسيت كلمة المرور؟</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+            </form>
+
+            <div class="divider">أو</div>
+
+            <div class="social-login">
+                <button class="social-btn">
+                    <i class="fab fa-google" style="color: #DB4437;"></i>
+                    Google
+                </button>
+                <button class="social-btn">
+                    <i class="fab fa-facebook" style="color: #4267B2;"></i>
+                    Facebook
+                </button>
+            </div>
+        </div>
+
+        <!-- إنشاء حساب -->
+        <div id="signupTab" class="tab-content">
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="firstName">الاسم الأول</label>
+                    <input type="text" id="firstName" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">الاسم الأخير</label>
+                    <input type="text" id="lastName" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">البريد الإلكتروني</label>
+                    <input type="email" id="signupEmail" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">كلمة المرور</label>
+                    <input type="password" id="signupPassword" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">تأكيد كلمة المرور</label>
+                    <input type="password" id="confirmPassword" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" required>
+                        أوافق على <a href="#" style="color: var(--accent);">شروط الاستخدام</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">إنشاء حساب</button>
+            </form>
+        </div>
+
+        <div class="login-footer">
+            بالاستمرار، أنت توافق على <a href="#">شروط الخدمة</a> و<a href="#">الخصوصية</a>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // إخفاء جميع المحتويات
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // إزالة النشاط من جميع الأزرار
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // إظهار المحتوى المطلوب
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // تفعيل الزر المطلوب
+            event.target.classList.add('active');
+        }
+
+        // معالجة نموذج التسجيل
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('كلمة المرور غير متطابقة');
+                return;
+            }
+            
+            // حفظ بيانات المستخدم
+            const userData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('signupEmail').value,
+                joinedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            window.location.href = 'verification.html';
+        });
+
+        // معالجة نموذج الدخول
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

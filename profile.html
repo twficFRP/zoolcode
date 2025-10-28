@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي - ZOOL CODE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--secondary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 1rem;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-bio {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .edit-form {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--bg);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--secondary);
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--bg);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .avatar-upload {
+            text-align: center;
+            padding: 2rem;
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .avatar-upload:hover {
+            border-color: var(--accent);
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats {
+                gap: 1.5rem;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <i class="fas fa-code"></i>
+                ZOOL <span>CODE</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="profile.html" class="nav-link active">
+                    <i class="fas fa-user"></i>
+                    الملف الشخصي
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <!-- رأس الملف الشخصي -->
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <img src="00.jpg" alt="المستخدم" id="profileAvatarImg">
+            </div>
+            <h1 class="profile-name" id="profileNameDisplay">توفيق المحجوب</h1>
+            <p class="profile-bio" id="profileBioDisplay">@tawfiq_dev • مبرمج ومطور</p>
+            
+            <div class="profile-stats">
+                <div class="stat">
+                    <span class="stat-number" id="postsCountDisplay">289</span>
+                    <span class="stat-label">منشورات</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="followersCountDisplay">127</span>
+                    <span class="stat-label">متابعون</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="followingCountDisplay">45</span>
+                    <span class="stat-label">يتابع</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <!-- نموذج التعديل -->
+            <div class="edit-form">
+                <div class="form-section">
+                    <h3 class="section-title">المعلومات الشخصية</h3>
+                    
+                    <div class="form-group">
+                        <label for="firstName">الاسم الأول</label>
+                        <input type="text" id="firstName" class="form-control" value="توفيق">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">الاسم الأخير</label>
+                        <input type="text" id="lastName" class="form-control" value="المحجوب">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userBio">نبذة عنك</label>
+                        <textarea id="userBio" class="form-control" rows="4">مبرمج ومطور ويب، طالب بكلية الشريعة والقانون، أحب البرمجة والتطوير</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">المكان</label>
+                        <input type="text" id="location" class="form-control" value="السودان">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">معلومات التواصل</h3>
+                    
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" class="form-control" value="tawfiq@zoolcode.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">الموقع الإلكتروني</label>
+                        <input type="url" id="website" class="form-control" value="https://zoolcode.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="twitter">حساب تويتر</label>
+                        <input type="text" id="twitter" class="form-control" value="@tawfiq_dev">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">التخصصات والمهارات</h3>
+                    
+                    <div class="form-group">
+                        <label for="skills">المهارات (افصل بينها بفواصل)</label>
+                        <input type="text" id="skills" class="form-control" value="JavaScript, React, Node.js, Python, HTML, CSS">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interests">الاهتمامات</label>
+                        <input type="text" id="interests" class="form-control" value="Web Development, Open Source, AI, Machine Learning">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" onclick="saveProfile()">
+                        <i class="fas fa-save"></i>
+                        حفظ التغييرات
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        <i class="fas fa-undo"></i>
+                        إعادة تعيين
+                    </button>
+                </div>
+            </div>
+
+            <!-- الشريط الجانبي -->
+            <div class="profile-sidebar">
+                <!-- تحميل الصورة -->
+                <div class="info-card">
+                    <h3 class="section-title">الصورة الشخصية</h3>
+                    <div class="avatar-upload" onclick="document.getElementById('avatarUpload').click()">
+                        <div class="upload-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <p>انقر لتغيير الصورة</p>
+                        <small>JPEG, PNG - الحد الأقصى 5MB</small>
+                    </div>
+                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- معلومات الحساب -->
+                <div class="info-card">
+                    <h3 class="section-title">معلومات الحساب</h3>
+                    <div class="info-item">
+                        <span class="info-label">تاريخ الانضمام</span>
+                        <span class="info-value" id="joinDate">15 يناير 2024</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">آخر تحديث</span>
+                        <span class="info-value" id="lastUpdate">الآن</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">الحالة</span>
+                        <span class="info-value" style="color: var(--success);">نشط</span>
+                    </div>
+                </div>
+
+                <!-- الإعدادات السريعة -->
+                <div class="info-card">
+                    <h3 class="section-title">الإعدادات</h3>
+                    <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">
+                        <i class="fas fa-lock"></i>
+                        تغيير كلمة المرور
+                    </button>
+                    <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">
+                        <i class="fas fa-bell"></i>
+                        إعدادات الإشعارات
+                    </button>
+                    <button class="btn btn-secondary" style="width: 100%;">
+                        <i class="fas fa-shield-alt"></i>
+                        الخصوصية
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تحميل بيانات المستخدم
+        function loadUserData() {
+            const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            // تعبئة النموذج
+            document.getElementById('firstName').value = userData.firstName || 'توفيق';
+            document.getElementById('lastName').value = userData.lastName || 'المحجوب';
+            document.getElementById('userBio').value = userData.bio || 'مبرمج ومطور ويب، طالب بكلية الشريعة والقانون، أحب البرمجة والتطوير';
+            document.getElementById('email').value = userData.email || 'tawfiq@zoolcode.com';
+            document.getElementById('location').value = userData.location || 'السودان';
+            document.getElementById('website').value = userData.website || 'https://zoolcode.com';
+            document.getElementById('twitter').value = userData.twitter || '@tawfiq_dev';
+            document.getElementById('skills').value = userData.skills || 'JavaScript, React, Node.js, Python, HTML, CSS';
+            document.getElementById('interests').value = userData.interests || 'Web Development, Open Source, AI, Machine Learning';
+            
+            // تحديث العرض
+            updateProfileDisplay();
+        }
+
+        // تحديث العرض
+        function updateProfileDisplay() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const bio = document.getElementById('userBio').value;
+            
+            document.getElementById('profileNameDisplay').textContent = `${firstName} ${lastName}`;
+            document.getElementById('profileBioDisplay').textContent = bio;
+        }
+
+        // حفظ البيانات
+        function saveProfile() {
+            const userData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                bio: document.getElementById('userBio').value,
+                email: document.getElementById('email').value,
+                location: document.getElementById('location').value,
+                website: document.getElementById('website').value,
+                twitter: document.getElementById('twitter').value,
+                skills: document.getElementById('skills').value,
+                interests: document.getElementById('interests').value,
+                lastUpdate: new Date().toLocaleString('ar-EG')
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            updateProfileDisplay();
+            
+            // تحديث تاريخ التعديل
+            document.getElementById('lastUpdate').textContent = 'الآن';
+            
+            alert('تم حفظ التغييرات بنجاح!');
+        }
+
+        // إعادة تعيين النموذج
+        function resetForm() {
+            if (confirm('هل تريد إعادة تعيين جميع التغييرات؟')) {
+                loadUserData();
+            }
+        }
+
+        // معالجة تحميل الصورة
+        document.getElementById('avatarUpload').addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                const file = e.target.files[0];
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('حجم الصورة يجب أن يكون أقل من 5MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('profileAvatarImg').src = event.target.result;
+                    
+                    // حفظ الصورة في localStorage (مثال بسيط)
+                    localStorage.setItem('userAvatar', event.target.result);
+                };
+                reader.readAsDataURL(file);
+                
+                alert('تم تغيير الصورة بنجاح!');
+            }
+        });
+
+        // التحميل الأولي
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            
+            // تحميل الصورة المحفوظة
+            const savedAvatar = localStorage.getItem('userAvatar');
+            if (savedAvatar) {
+                document.getElementById('profileAvatarImg').src = savedAvatar;
+            }
+            
+            // تحديث الحقول عند التغيير
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('input', updateProfileDisplay);
+            });
+        });
+    </script>
+</body>
+</html>

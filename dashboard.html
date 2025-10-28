@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية - ZOOL CODE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--secondary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--accent);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-bio {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .create-post {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .post-input {
+            width: 100%;
+            border: none;
+            resize: none;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            min-height: 100px;
+            outline: none;
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .media-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .media-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .media-btn:hover {
+            background: var(--bg);
+            transform: scale(1.1);
+        }
+
+        .trends {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 100px;
+        }
+
+        .trends-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg);
+        }
+
+        .trend-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--bg);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .trend-item:hover {
+            background: var(--bg);
+            margin: 0 -1rem;
+            padding: 1rem;
+        }
+
+        .trend-category {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+
+        .trend-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .trend-count {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .post {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .post:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-user {
+            flex: 1;
+        }
+
+        .post-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .post-content {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid var(--bg);
+            padding-top: 1rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #718096;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .action-btn:hover {
+            background: var(--bg);
+            color: var(--accent);
+        }
+
+        .reactions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .reaction {
+            background: var(--bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reaction:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .reaction.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar, .trends {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-center {
+                display: none;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <i class="fas fa-code"></i>
+                ZOOL <span>CODE</span>
+            </a>
+
+            <div class="nav-center">
+                <a href="dashboard.html" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-hashtag"></i>
+                    الاستكشاف
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    الإشعارات
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    الملف الشخصي
+                </a>
+            </div>
+
+            <div class="user-menu">
+                <div class="user-avatar">
+                    <img src="" alt="المستخدم" id="userAvatar">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <!-- الشريط الجانبي -->
+        <div class="sidebar">
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <img src="" alt="المستخدم" id="profileAvatar">
+                </div>
+                <div class="profile-name" id="profileName">...</div>
+                <div class="profile-bio" id="profileBio">...</div>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number" id="followersCount">0</span>
+                        <span class="stat-label">متابعون</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="followingCount">0</span>
+                        <span class="stat-label">يتابع</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="postsCount">0</span>
+                        <span class="stat-label">منشورات</span>
+                    </div>
+                </div>
+
+                <a href="profile.html" class="btn btn-primary">
+                    <i class="fas fa-edit"></i>
+                    تعديل الملف
+                </a>
+            </div>
+
+            <!-- إنشاء منشور -->
+            <div class="create-post">
+                <textarea class="post-input" placeholder="ماذا تريد أن تشارك مع المجتمع؟ #برمجة #تطوير" id="postContent"></textarea>
+                <div id="imagePreview" style="margin-bottom: 1rem; display: none;">
+                    <img id="previewImg" style="max-width: 100%; border-radius: 10px; max-height: 200px;">
+                </div>
+                <div class="post-actions">
+                    <div class="media-buttons">
+                        <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                        <button type="button" class="media-btn" onclick="document.getElementById('imageUpload').click()">
+                            <i class="fas fa-image"></i>
+                        </button>
+                        <input type="file" id="videoUpload" accept="video/*" style="display: none;">
+                        <button type="button" class="media-btn" onclick="document.getElementById('videoUpload').click()">
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <button type="button" class="media-btn">
+                            <i class="fas fa-code"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary" style="width: auto; padding: 0.5rem 1rem;" onclick="publishPost()">
+                        نشر
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- المنشورات -->
+        <div class="main-content">
+            <div id="postsContainer">
+                <!-- المنشورات تظهر هنا -->
+            </div>
+        </div>
+
+        <!-- الترندات -->
+        <div class="trends">
+            <h3 class="trends-title">الترندات في البرمجة</h3>
+            <div class="trend-item">
+                <div class="trend-category">تكنولوجيا • شائع</div>
+                <div class="trend-name">#WebDevelopment</div>
+                <div class="trend-count">5,248 منشور</div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-category">برمجة • شائع</div>
+                <div class="trend-name">#Python</div>
+                <div class="trend-count">3,892 منشور</div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-category">تعلم • جديد</div>
+                <div class="trend-name">#MachineLearning</div>
+                <div class="trend-count">2,156 منشور</div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-category">مجتمع • متجه</div>
+                <div class="trend-name">#OpenSource</div>
+                <div class="trend-count">1,847 منشور</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات المثال
+        const samplePosts = [
+            {
+                id: 1,
+                user: { 
+                    name: "أحمد البرمجي", 
+                    avatar: "https://via.placeholder.com/150/667eea/ffffff?text=AB",
+                    handle: "@ahmed_coder" 
+                },
+                content: "جربت مكتبة React Query اليوم ورائعة جداً لإدارة حالة الخادم! #React #JavaScript",
+                time: "منذ 2 ساعة",
+                image: null,
+                reactions: { useful: 15, important: 8, good: 12, funny: 3, acceptable: 5 },
+                comments: 7,
+                shares: 3
+            },
+            {
+                id: 2,
+                user: { 
+                    name: "فاطمة المطورة", 
+                    avatar: "https://via.placeholder.com/150/e53e3e/ffffff?text=FD",
+                    handle: "@fatima_dev" 
+                },
+                content: "كيف يمكنني تحسين أداء تطبيق Node.js؟ أي نصائح أو best practices? #NodeJS #Performance",
+                time: "منذ 5 ساعات",
+                image: "https://via.placeholder.com/600x300/764ba2/ffffff?text=Code+Example",
+                reactions: { useful: 23, important: 15, good: 18, funny: 2, acceptable: 9 },
+                comments: 12,
+                shares: 5
+            }
+        ];
+
+        // تحميل بيانات المستخدم
+        function loadUserData() {
+            const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            document.getElementById('userAvatar').src = '00.jpg';
+            document.getElementById('profileAvatar').src = '00.jpg';
+            document.getElementById('profileName').textContent = userData.firstName + ' ' + userData.lastName;
+            document.getElementById('profileBio').textContent = `@${userData.firstName?.toLowerCase()}_dev • مبرمج ومطور`;
+            
+            document.getElementById('followersCount').textContent = '127';
+            document.getElementById('followingCount').textContent = '45';
+            document.getElementById('postsCount').textContent = '289';
+        }
+
+        // تحميل المنشورات
+        function loadPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+            
+            samplePosts.forEach(post => {
+                const postElement = createPostElement(post);
+                container.appendChild(postElement);
+            });
+        }
+
+        // إنشاء عنصر منشور
+        function createPostElement(post) {
+            const div = document.createElement('div');
+            div.className = 'post';
+            div.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">
+                        <img src="${post.user.avatar}" alt="${post.user.name}">
+                    </div>
+                    <div class="post-user">
+                        <div class="post-name">${post.user.name}</div>
+                        <div class="post-time">${post.time} • ${post.user.handle}</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    ${post.content}
+                </div>
+                ${post.image ? `<img src="${post.image}" class="post-image" alt="صورة المنشور">` : ''}
+                <div class="reactions">
+                    <button class="reaction" onclick="reactToPost(${post.id}, 'useful')">
+                        👍 مفيد (${post.reactions.useful})
+                    </button>
+                    <button class="reaction" onclick="reactToPost(${post.id}, 'important')">
+                        💡 مهم (${post.reactions.important})
+                    </button>
+                    <button class="reaction" onclick="reactToPost(${post.id}, 'good')">
+                        🚀 جيد (${post.reactions.good})
+                    </button>
+                    <button class="reaction" onclick="reactToPost(${post.id}, 'funny')">
+                        😄 مضحك (${post.reactions.funny})
+                    </button>
+                    <button class="reaction" onclick="reactToPost(${post.id}, 'acceptable')">
+                        ✅ مقبول (${post.reactions.acceptable})
+                    </button>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="commentOnPost(${post.id})">
+                        <i class="fas fa-comment"></i> ${post.comments}
+                    </button>
+                    <button class="action-btn" onclick="sharePost(${post.id})">
+                        <i class="fas fa-retweet"></i> ${post.shares}
+                    </button>
+                </div>
+            `;
+            return div;
+        }
+
+        // نشر منشور جديد
+        function publishPost() {
+            const content = document.getElementById('postContent').value.trim();
+            if (!content) return;
+
+            alert('تم نشر منشورك بنجاح!');
+            document.getElementById('postContent').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+
+        // تفاعل مع المنشور
+        function reactToPost(postId, reaction) {
+            alert(`تفاعلت بـ ${reaction} على المنشور`);
+        }
+
+        // التعليق على المنشور
+        function commentOnPost(postId) {
+            const comment = prompt("اكتب تعليقك:");
+            if (comment) {
+                alert(`تم إضافة تعليقك: ${comment}`);
+            }
+        }
+
+        // مشاركة المنشور
+        function sharePost(postId) {
+            alert('تم مشاركة المنشور');
+        }
+
+        // معالجة رفع الصور
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            if (e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('previewImg').src = event.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // التحميل الأولي
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadPosts();
+        });
+    </script>
+</body>
+</html>
